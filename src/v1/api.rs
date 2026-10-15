@@ -254,10 +254,7 @@ impl OpenAIClient {
         if status.is_success() {
             Ok((headers, response.bytes().await?))
         } else {
-            let error_message = response
-                .text()
-                .await
-                .unwrap_or_else(|_| "Unknown error".to_string());
+            let error_message = response.text().await?;
             Err(APIError::CustomError {
                 message: format!("{status}: {error_message}"),
             })
